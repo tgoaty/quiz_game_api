@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   postgres:
     image: postgres:15
@@ -9,6 +11,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    network_mode: host
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 2s
@@ -23,10 +26,10 @@ services:
       - ..:/app
     ports:
       - "8000:8000"
+    network_mode: host
     depends_on:
       postgres:
         condition: service_healthy
 
 volumes:
   postgres_data:
-
