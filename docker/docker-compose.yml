@@ -1,10 +1,10 @@
 services:
-  db:
+  postgres:
     image: postgres:15
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: pass123
-      POSTGRES_DB: twX
+      POSTGRES_DB: quiz
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
@@ -12,7 +12,7 @@ services:
 
   web:
     build:
-      context: ../..
+      context: ../
       dockerfile: docker/Dockerfile
     volumes:
       - ..:/app

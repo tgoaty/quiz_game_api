@@ -5,4 +5,4 @@ echo "Running Alembic migrations..."
 alembic upgrade head
 
 echo "Starting server..."
-exec python3 run.py
+exec python3 main.py
