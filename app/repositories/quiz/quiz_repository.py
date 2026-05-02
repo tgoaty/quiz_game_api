@@ -17,19 +17,19 @@ class QuizRepository(BaseRepository[Quiz, QuizCreate, QuizUpdate]):
     async def create_with_relations(
         self, db: AsyncSession, quiz_data: QuizCreate
     ) -> Quiz:
-        quiz = Quiz(**quiz_data.model_dump(exclude={"questions"}))
+        quiz = Quiz(**quiz_data.model_dump(exclude={"question"}))
         db.add(quiz)
         await db.flush()
 
-        for question_data in quiz_data.questions:
+        for question_data in quiz_data.question or []:
             question = Question(
-                **question_data.model_dump(exclude={"answer_options"}),
+                **question_data.model_dump(exclude={"answer_option"}),
                 quiz_sid=quiz.sid,
             )
             db.add(question)
             await db.flush()
 
-            for option_data in question_data.answer_options:
+            for option_data in question_data.answer_option or []:
                 option = AnswerOption(
                     **option_data.model_dump(), question_sid=question.sid
                 )
@@ -50,7 +50,7 @@ class QuestionRepository(BaseRepository[Question, QuestionCreate, QuestionUpdate
         question = await self.create(db, question_dict)
 
         answer_repo = AnswerOptionRepository()
-        for answer_data in question_data.answer_options:
+        for answer_data in question_data.answer_option or []:
             await answer_repo.create(
                 db, {**answer_data.model_dump(), "question_sid": question.sid}
             )

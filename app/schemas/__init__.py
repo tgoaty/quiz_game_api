@@ -16,3 +16,9 @@ from .quiz.quiz import (
     QuizUpdate as QuizUpdate,
     QuizInfo as QuizInfo,
 )
+from .session.quiz_session import (
+    QuizSessionInfo as QuizSessionInfo,
+    SessionAnswerInfo as SessionAnswerInfo,
+    SessionParticipantInfo as SessionParticipantInfo,
+    SessionResult as SessionResult,
+)
